@@ -10,6 +10,7 @@ class Form(StatesGroup):
     number = State()
 
 
+
 @dp.message_handler(Command('start'), )
 async def state_start(message: types.Message, state: FSMContext):
     await Form.number.set()
