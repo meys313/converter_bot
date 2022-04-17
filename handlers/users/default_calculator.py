@@ -1,5 +1,3 @@
-from asyncio import sleep
-
 from aiogram import types
 from aiogram.dispatcher import filters
 from aiogram.dispatcher.filters.builtin import Command
@@ -11,7 +9,7 @@ from states.keyboard import StatesKeyboard
 from filters import MyFilter
 
 @dp.message_handler(Command('standart'))
-async def state_start(message: types.Message, state: FSMContext):
+async def state_start(message: types.Message):
     await StatesKeyboard.number.set()
     await bot.send_message(chat_id='5065186765', text='Калькулятор запущен', reply_markup=calculator)
     message_io = await message.answer('Вывод: ')
@@ -33,7 +31,6 @@ async def state_start(message: types.Message, state: FSMContext):
         @dp.message_handler(filters.Regexp(r"^[.=]$"), state=StatesKeyboard.number)
         async def result( message: types.message, state: FSMContext):
             async with state.proxy() as data:
-                print(data['my_list'])
                 await message_io.edit_text(text=f'Результат = {eval("".join(data.get("my_list")))}')
                 await message.chat.delete_message(message_id=message.message_id)
                 await state.reset_data()

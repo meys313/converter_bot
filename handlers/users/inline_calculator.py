@@ -9,8 +9,6 @@ from keyboards.inline.inline_calculator import default_calculator, callback
 from states.keyboard import StatesKeyboard
 
 
-
-
 @dp.message_handler(Command('default_calculator'))
 async def default_calculator_handlers(message: types.Message):
     await message.answer('🧮 Простой калькулятор: ', reply_markup=default_calculator)
