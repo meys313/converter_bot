@@ -11,3 +11,8 @@ from aiogram.dispatcher import FSMContext
 async def cmd_cancel(message: types.Message, state: FSMContext):
     await state.finish()
     await message.answer("Действие отменено", reply_markup=types.ReplyKeyboardRemove())
+
+
+@dp.message_handler()
+async def all_text(message: types.Message):
+    await message.reply('Команда не распознана, обратитесь к /help')

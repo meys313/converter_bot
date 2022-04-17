@@ -3,6 +3,7 @@ from aiogram import types
 
 
 from aiogram.dispatcher.filters import BoundFilter
+from aiogram.types import CallbackQuery
 
 
 class MyFilter(BoundFilter):
@@ -14,3 +15,13 @@ class MyFilter(BoundFilter):
         else:
             if re.findall(r"^[0-9 .+*\/-]*$", message.text):
                 return True
+
+class InlineClear(BoundFilter):
+    async def check(self, call: CallbackQuery) -> bool:
+        return call.data.split(":")[-1] == "clear"
+
+
+class InlineDelete(BoundFilter):
+    async def check(self, call: CallbackQuery) -> bool:
+        return call.data.split(":")[-1] == "delete"
+
