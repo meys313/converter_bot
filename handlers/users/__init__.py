@@ -1,3 +1,3 @@
 from . import help
-from . import start
 from . import default_calculator
+from . import inline_calculator
