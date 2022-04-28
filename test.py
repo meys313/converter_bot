@@ -1,38 +1,28 @@
-from datetime import date, datetime, timedelta
-import calendar
-
-today = datetime.today()
-
-birthday = datetime(day=5, month=11, year=today.year)
-
-next_birthday_days = birthday - today
-
-print(next_birthday_days)
-hour = int(str(next_birthday_days).split(',')[1].split(':')[0])
-minute = int(str(next_birthday_days).split(',')[1].split(':')[1])
-
-birthday_month = (today + timedelta(days=next_birthday_days.days)).month
+import datetime
+from dateutil.relativedelta import relativedelta
 
 
-def detect_next_birthday():
-    key = {}
-    summ = 197
-    if hour != 0 and minute != 0:
-        summ +=1
-    month = 0
-    day = 0
-    for m in range(today.month, birthday_month + 1):
-        key.update({m: calendar.monthrange(2022, m)[1]})
+def get_time_since_the_birthday(birthday_date):
+    time_now = datetime.datetime.now()
+    since_the_birthday = relativedelta(time_now, birthday_date)
 
-    for key, value in key.items():
-        if summ > value:
-            summ = summ - value
-            month +=1
-    day = summ
+    print(f"со дня рождения прошло: {since_the_birthday}")
+
+def get_time_to_next_birhday(birthday_date):
+    time_now = datetime.datetime.now()
+    next_birthday_date = birthday_date.replace(year=time_now.year +1)
+    time_to_next_birthday = relativedelta(next_birthday_date, time_now)
+
+    print(f"до следующего др: { time_to_next_birthday}")
 
 
-    print(f"до дня рождения осталось месяцев: {month} и дней: {day}")
 
-detect_next_birthday()
+birthday_dates = [2020, 3, 13]
+birthday_date_time = datetime.datetime(*birthday_dates)
+
+print(birthday_date_time)
+get_time_since_the_birthday(birthday_date_time)
+print(birthday_date_time.replace(year=2022).weekday())
+get_time_to_next_birhday(birthday_date_time)
 
 

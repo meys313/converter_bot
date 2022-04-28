@@ -1,5 +1,5 @@
 from datetime import datetime
-import calendar
+from dateutil.relativedelta import relativedelta
 import pymorphy2
 from aiogram import types
 from aiogram.dispatcher import filters
@@ -22,26 +22,25 @@ async def start_detect_years(message: types.Message):
 # хэндлер на текст формата 21.04.2020 (год в пределах 1700, 1800, 1900, 2000) с установленным состоянием states_years
 @dp.message_handler(filters.Regexp( r'^(0?[1-9]|[12][0-9]|3[01]).(0?[1-9]|1[012]).((17|18|19|20)\d\d)$' ), state=states_years)
 async def detect_years(message: types.Message, state: FSMContext):
-    birthday = datetime(
+
+    birthday_date = datetime(
         day=int(message.text.split(".")[0]),
         month=int(message.text.split(".")[1]),
         year=int(message.text.split(".")[2])
-    ) # формирует дату рождения из данных, отправленных пользователем
+    )
+    print(birthday_date)
+    time_now = datetime.now()
+    since_the_birthday = relativedelta(time_now, birthday_date)
+    next_birthday_date = birthday_date.replace(year=time_now.year)
+    if birthday_date.month <= time_now.month:
+        if birthday_date.day >= time_now.day:
+            pass
+        else:
+            next_birthday_date = birthday_date.replace(year=time_now.year + 1)
 
-    today = message.date.today() # сегодняшнее число
+    time_to_next_birthday = relativedelta(next_birthday_date, time_now)
 
-    day = abs(today.day - birthday.day)
-    month = today.month - birthday.month
 
-    if month < 0:
-        month = 12 - abs(month)
-    if today.day < birthday.day:
-        day = calendar.monthrange(today.year, today.month - 1)[1] - day
-        if month != 0:
-            month -= 1
-    year = today.year - birthday.year
-    if today.month < birthday.month or today.month == birthday.month and today.day < birthday.day:
-        year -= 1
 
     def morph(word, number):
         word = pymorphy2.MorphAnalyzer().parse(word)[0].make_agree_with_number(number).word
@@ -49,7 +48,26 @@ async def detect_years(message: types.Message, state: FSMContext):
             word = 'лет'
         return word
 
-    result = f"Возраст {year} {morph('год', year)}, {month} {morph('месяц', month)}, {day} {morph('день', day)} \n" \
-             f"Следующий день рождения: "
+    def week():
+        weeks = {0:'Понедельник', 1:'Вторник', 2:"Среду", 3:"Четверг", 4:"Пятницу", 5:"Субботу", 6:"Воскресенье"}
+
+        week = birthday_date.replace(year=time_now.year).weekday()
+        if since_the_birthday.hours != 0 or since_the_birthday.minutes != 0:
+            if week == 6:
+                week = 0
+            else:
+                week += 1
+        return weeks[week]
+
+    result = f"<b>Полных лет</b>: {since_the_birthday.years} {morph('год', since_the_birthday.years)}, " \
+             f"{since_the_birthday.months} {morph('месяц', since_the_birthday.months)}, " \
+             f"{since_the_birthday.days} {morph('день', since_the_birthday.days)} \n" \
+             f"<b>До следующего дня рождения:</b> {time_to_next_birthday.months} {morph('месяц', time_to_next_birthday.months)}," \
+             f"{time_to_next_birthday.days} {morph('день', time_to_next_birthday.days)}, " \
+             f"{time_to_next_birthday.hours} {morph('час', time_to_next_birthday.hours)} \n" \
+             f"🎉 День рождение в <b>{week()}</b>"
+
 
     await message.answer(result)
+
+
