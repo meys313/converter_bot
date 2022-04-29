@@ -51,3 +51,4 @@ async def detect_years(message: types.Message, state: FSMContext):
                              f'{abs(difference.days)} {morph("день", difference.days)}</b>')
 
         await state.finish()
+        await state.set_state(States_difference_date.data_1)

@@ -62,7 +62,8 @@ async def detect_years(message: types.Message, state: FSMContext):
              f"До следующего дня рождения:<b> {time_to_next_birthday.months} {morph('месяц', time_to_next_birthday.months)}, " \
              f" {time_to_next_birthday.days} {morph('день', time_to_next_birthday.days)}, " \
              f" {time_to_next_birthday.hours} {morph('час', time_to_next_birthday.hours)}</b> \n" \
-             f"🎉 <b>{birthday_date.day} {month()} в {week()}</b>"
+             f"🎉 следующий день рождения <b>{birthday_date.day} {month()} в {week()}</b>"
 
     await message.answer(result)
     await state.finish()
+    await state.set_state(year)

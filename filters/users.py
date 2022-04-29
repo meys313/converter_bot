@@ -25,3 +25,15 @@ class InlineDelete(BoundFilter):
     async def check(self, call: CallbackQuery) -> bool:
         return call.data.split(":")[-1] == "delete"
 
+
+# проверяет, является ли принятое сообщение исключительно числом
+class IsDigit(BoundFilter):
+    async def check(self, message: types.Message) -> bool:
+        return message.text.isdigit()
+
+class DiscountFilter(BoundFilter):
+    async def check(self, message: types.Message) -> bool:
+        return 0 < int(message.text) <= 100
+
+
+

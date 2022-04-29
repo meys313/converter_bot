@@ -6,6 +6,7 @@ async def set_default_commands(dp):
         [
             types.BotCommand("detect_years", "Определить возраст"),
             types.BotCommand("difference_between_dates", "Определить разницу между двумя датами"),
+            types.BotCommand("discount", "Рассчитать скидку"),
             types.BotCommand("default_calculator", "Обычный калькулятор"),
             types.BotCommand("inline_calculator", "Инлайн калькулятор"),
             types.BotCommand("/cancel", "Отмена"),
