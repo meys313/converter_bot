@@ -12,3 +12,8 @@ class DiscountState(StatesGroup):
 class States_difference_date(StatesGroup):
     data_1 = State()
     data_2 = State()
+
+class DataConverterState(StatesGroup):
+    convert_from = State()
+    convert_to = State()
+    value = State()
