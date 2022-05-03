@@ -9,10 +9,11 @@ from loader import dp
 from states import year
 
 
-@dp.message_handler(Command("detect_years"))
-async def start_detect_years(message: types.Message):
+@dp.message_handler(Command("detect_years"), state="*")
+async def start_detect_years(message: types.Message, state: FSMContext):
+    await state.finish()
     await year.set()
-    await message.answer("Напишите полную дату рождения. Пример: 03.09.1994")
+    await message.answer("Напишите полную дату рождения. Пример: 03.09.1994", reply_markup=types.ReplyKeyboardRemove())
 
 @dp.message_handler(filters.Regexp(r'^(0?[1-9]|[12][0-9]|3[01]).(0?[1-9]|1[012]).((17|18|19|20)\d\d)$'), state=year)
 async def detect_years(message: types.Message, state: FSMContext):

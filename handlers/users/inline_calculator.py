@@ -11,9 +11,10 @@ from keyboards.inline.inline_calculator import default_calculator, callback
 from states.keyboard import StatesKeyboard
 
 
-@dp.message_handler(Command('inline_calculator'))
-async def default_calculator_handlers(message: types.Message):
+@dp.message_handler(Command('inline_calculator'), state="*")
+async def default_calculator_handlers(message: types.Message, state: FSMContext):
     await message.answer('🧮 Простой калькулятор: ', reply_markup=default_calculator)
+    await state.finish()
     await StatesKeyboard.number.set()
 
 

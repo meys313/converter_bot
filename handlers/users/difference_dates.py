@@ -9,10 +9,11 @@ from aiogram.dispatcher import FSMContext
 from states import States_difference_date
 
 
-@dp.message_handler(Command("difference_between_dates"))
-async def start_detect_years(message: types.Message):
+@dp.message_handler(Command("difference_between_dates"), state="*")
+async def start_detect_years(message: types.Message, state: FSMContext):
+    await state.finish()
     await States_difference_date.data_1.set()
-    await message.answer("Напишите первую дату. Пример: 03.09.1994")
+    await message.answer("Напишите первую дату. Пример: 03.09.1994", reply_markup=types.ReplyKeyboardRemove())
 
 @dp.message_handler(filters.Regexp( r'^(0?[1-9]|[12][0-9]|3[01]).(0?[1-9]|1[012]).((15|16|17|18|19|20)\d\d)$' ), state=States_difference_date.data_1)
 async def detect_years(message: types.Message, state: FSMContext):
@@ -51,4 +52,3 @@ async def detect_years(message: types.Message, state: FSMContext):
                              f'{abs(difference.days)} {morph("день", difference.days)}</b>')
 
         await state.finish()
-        await state.set_state(States_difference_date.data_1)

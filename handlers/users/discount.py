@@ -8,9 +8,10 @@ from states import DiscountState
 
 
 
-@dp.message_handler(Command('discount'))
+@dp.message_handler(Command('discount'), state="*")
 async def discount(message: types.Message, state: FSMContext):
-    await message.answer('введите первоночальную цену')
+    await state.finish()
+    await message.answer('введите первоночальную цену', reply_markup=types.ReplyKeyboardRemove())
     await state.set_state(DiscountState.price)
 
 @dp.message_handler(IsDigit(), state=DiscountState.price)
