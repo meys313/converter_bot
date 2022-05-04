@@ -5,6 +5,7 @@ from . import difference_dates
 from . import discount
 from . import data_converter
 from . import scale_of_notation
+from . import time
 from . import default_calculator
 from . import inline_calculator
 from . import command_not_recognized

@@ -22,3 +22,8 @@ class ScaleOfNotationState(StatesGroup):
     convert_from = State()
     convert_to = State()
     value = State()
+
+class TimeStates(StatesGroup):
+    data_from = State()
+    data_to = State()
+    value = State()
