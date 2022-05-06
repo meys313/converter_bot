@@ -4,6 +4,8 @@ from aiogram import types
 async def set_default_commands(dp):
     await dp.bot.set_my_commands(
         [
+            types.BotCommand("temperature", "конвертер единиц измерения температуры"),
+            types.BotCommand("length", "конвертер единиц измерения длины"),
             types.BotCommand("weight", "конвертер единиц измерения массы"),
             types.BotCommand("time", "конвертер времени"),
             types.BotCommand("scale_of_notation", "Перевести из одной системы счисления в другую"),

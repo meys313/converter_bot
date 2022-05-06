@@ -9,5 +9,6 @@ from . import scale_of_notation
 from . import time
 from . import weight
 from . import length
+from . import temperature
 from . import inline_calculator
 from . import command_not_recognized
