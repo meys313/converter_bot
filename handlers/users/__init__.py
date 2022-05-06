@@ -1,5 +1,6 @@
 from . import cancel
 from . import help
+from . import default_calculator
 from . import years
 from . import difference_dates
 from . import discount
@@ -7,6 +8,6 @@ from . import data_converter
 from . import scale_of_notation
 from . import time
 from . import weight
-from . import default_calculator
+from . import length
 from . import inline_calculator
 from . import command_not_recognized

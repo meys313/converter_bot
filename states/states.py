@@ -35,3 +35,8 @@ class WeightStates(StatesGroup):
     convert_from = State()
     convert_to = State()
     value = State()
+
+class LengthStates(StatesGroup):
+    convert_from = State()
+    convert_to = State()
+    value = State()
