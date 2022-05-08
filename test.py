@@ -1,17 +1,9 @@
-def get_temperature(t_from, t_to, value):
-    temperature = {
-        'C': {'step': 1, 'default': 0},
-        'F': {'step': 1.8, 'default': 32},  # default - единица по цельсию
-        'K': {'step': 1, 'default': 273.15, },
-        'R': {'step': 1.8, 'default': 491.67, },
-        'Re': {'step': 0.8, 'default': 0}
-    }
-    # получаю значение 0 относительно единицы измерения с которой и в которую перевожу
-    default = temperature[t_to]['default'] - temperature[t_from]['default'] / (
-                temperature[t_from]['step'] / temperature[t_to]['step'])
+ZAR = 41.9774
+ZAR_nominal = 10
+KRW = 52.9459
+KRW_nominal = 1000
 
-    result = default + temperature[t_to]['step'] / temperature[t_from]['step'] * value
-    print(result)
+result = (ZAR/ZAR_nominal)/()
 
 
-get_temperature('C', 'K', 0)
+# (То что переводишь делишь на номинал) / (то куда переводишь делишь на номинал) * на номинал в который нужно перевести

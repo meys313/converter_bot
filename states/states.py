@@ -45,3 +45,8 @@ class TemperatureStates(StatesGroup):
     convert_from = State()
     convert_to = State()
     value = State()
+
+class CurrencyStates(StatesGroup):
+    convert_from = State()
+    convert_to = State()
+    value = State()

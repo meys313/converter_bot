@@ -1,6 +1,7 @@
 from . import cancel
 from . import help
 from . import default_calculator
+from . import currency
 from . import years
 from . import difference_dates
 from . import discount
