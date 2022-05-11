@@ -31,6 +31,8 @@ def get_currency():
         # Словарь вида 'USD': {'full_name': 'Доллар США', 'nominal': '1', 'value': '67,3843'},
         currency.update({char_code: {'full_name': name, 'nominal': nominal, 'value': value}})
 
+    currency.update({'RUB': {'full_name': 'Российский рубль', 'nominal': 1, 'value': '1,0'}})
+
     return currency
 
 
@@ -41,6 +43,7 @@ async def get_keyboards(message, state):
         if message.text.lower() in v['full_name'].replace('их', 'ий').lower():
             currency_keyboard.inline_keyboard.append(
                 [InlineKeyboardButton(text=v['full_name'].replace('их', 'ий'), callback_data=callback.new(k))], )
+
 
 
 @dp.message_handler(Command('currency'), state="*")
