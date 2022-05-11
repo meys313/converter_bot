@@ -1,9 +1,7 @@
-ZAR = 41.9774
-ZAR_nominal = 10
-KRW = 52.9459
-KRW_nominal = 1000
-
-result = (ZAR/ZAR_nominal)/()
-
-
 # (То что переводишь делишь на номинал) / (то куда переводишь делишь на номинал) * на номинал в который нужно перевести
+
+
+from keyboards.inline import currency_keyboard
+
+if len(currency_keyboard.inline_keyboard) == 1:
+    print('+')
