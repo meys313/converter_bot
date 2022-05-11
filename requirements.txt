@@ -1,2 +1,4 @@
 aiogram
 environs
+beautifulsoup4
+pymorphy2
