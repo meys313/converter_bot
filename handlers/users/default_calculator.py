@@ -1,3 +1,5 @@
+import ast
+import operator as op
 from aiogram import types
 from aiogram.dispatcher import filters
 from aiogram.dispatcher.filters.builtin import Command
@@ -39,9 +41,26 @@ async def process_state(message: types.Message, state: FSMContext):
 
 @dp.message_handler(filters.Regexp(r"^[.=]$"), state=StatesKeyboard.all_states)
 async def result(message: types.message, state: FSMContext):
+    def eval_expr(expr):
+        return eval_(ast.parse(expr, mode='eval').body)
+
+    def eval_(node):
+
+        operators = {ast.Add: op.add, ast.Sub: op.sub, ast.Mult: op.mul,
+                     ast.Div: op.truediv, ast.Pow: op.pow, ast.BitXor: op.xor,
+                     ast.USub: op.neg}
+        if isinstance(node, ast.Num):  # <number>
+            return node.n
+        elif isinstance(node, ast.BinOp):  # <left> <operator> <right>
+            return operators[type(node.op)](eval_(node.left), eval_(node.right))
+        elif isinstance(node, ast.UnaryOp):  # <operator> <operand> e.g., -1
+            return operators[type(node.op)](eval_(node.operand))
+        else:
+            raise TypeError(node)
+
     async with state.proxy() as data:
         try:
-            result = eval("".join(data.get("my_list")))
+            result = eval_expr("".join(data.get("my_list")))
         except ZeroDivisionError:
             result = '<i>❗Упс, кажется ты пытаешься делить на ноль❗</i>'
         await bot.edit_message_text(chat_id=message.chat.id, message_id=data['message_id'], text=f'Результат = {result}', reply_markup=inline_btn)

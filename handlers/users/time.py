@@ -64,6 +64,7 @@ async def get_value(message: types.Message, state: FSMContext):
 
         await message.answer(f"{value} {data['name1']} ➡ {data['name2']}: \n"
                              f"<b>{result}</b> {data['name2']}")
+    await state.finish()
 
 
 @dp.message_handler(state=TimeStates.value)

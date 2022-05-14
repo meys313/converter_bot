@@ -8,9 +8,9 @@ from . import difference_dates
 from . import discount
 from . import data_converter
 from . import scale_of_notation
+from . import length
 from . import time
 from . import weight
-from . import length
 from . import temperature
 from . import inline_calculator
 from . import command_not_recognized
