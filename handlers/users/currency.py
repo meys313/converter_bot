@@ -108,6 +108,7 @@ async def get_value(message: types.Message, state: FSMContext):
                              f" курс {data['name2']}: <b>{currency_to}</b>, номинал: {nominal_to} \n"
                              f"<i>Курсы валют предоставлены центральным банком России на момент "
                              f"{message.date.date()}</i>")
+    await state.finish()
 
 
 @dp.message_handler(state=CurrencyStates.value)

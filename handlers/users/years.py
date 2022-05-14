@@ -22,10 +22,14 @@ async def detect_years(message: types.Message, state: FSMContext):
         month=int(message.text.split(".")[1]),
         year=int(message.text.split(".")[2])
     )
-    print(birthday_date)
+
     time_now = datetime.now()
     since_the_birthday = relativedelta(time_now, birthday_date)
-    next_birthday_date = birthday_date.replace(year=time_now.year)
+    if time_now.month > birthday_date.month:
+        next_birthday_date = birthday_date.replace(year=time_now.year + 1)
+    else:
+        next_birthday_date = birthday_date.replace(year=time_now.year)
+
     if birthday_date.month <= time_now.month:
         if birthday_date.day >= time_now.day:
             pass
