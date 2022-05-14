@@ -7,22 +7,22 @@
 ## Примеры возможностей
 
 #### конвертер валют 
-![image](./gifs/currency_var2.gif)
+![image](./description/gifs/currency_var2.gif)
 
 #### Системы счисления 
-![image](./gifs/scale_of_notation.gif)
+![image](./description/gifs/scale_of_notation.gif)
 
 #### Конвертер температуры
-![image](./gifs/temperature.gif)
+![image](./description/gifs/temperature.gif)
 
 #### Определение возраста и кол-ва дней до следующего дня рождения
-![image](./gifs/birthday.gif)
+![image](./description/gifs/birthday.gif)
 
 ### обычный и инлайн калькулятор 
 <code>
 <div style="display: flex; justify-content: flex-start; align-items: center;">
-    <img style="margin-right: 50px;" height="737" src="./gifs/default_calculator.gif">
-    <img height="737" src="./gifs/inline_calculator.gif">
+    <img style="margin-right: 50px;" height="737" src="./description/gifs/default_calculator.gif">
+    <img height="737" src="./description/gifs/inline_calculator.gif">
 </div>
 </code>
 
