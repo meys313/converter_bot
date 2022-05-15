@@ -71,4 +71,4 @@ async def detect_years(message: types.Message, state: FSMContext):
 
     await message.answer(result)
     await state.finish()
-    await state.set_state(year)
+

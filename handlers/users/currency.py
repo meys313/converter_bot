@@ -15,6 +15,7 @@ from keyboards.inline import currency_keyboard
 from states import CurrencyStates
 
 callback = CallbackData('callback', "name")
+callback_menu = CallbackData('callback_menu', 'action')
 
 
 def get_currency():
@@ -39,11 +40,18 @@ def get_currency():
 async def get_keyboards(message, state):
     currency_keyboard.inline_keyboard.clear()
     currency = (await state.get_data())['currency']
+    currency_keyboard.inline_keyboard.clear()
     for k, v in currency.items():
         if message.text.lower() in v['full_name'].replace('их', 'ий').lower():
             currency_keyboard.inline_keyboard.append(
                 [InlineKeyboardButton(text=v['full_name'].replace('их', 'ий'), callback_data=callback.new(k))], )
 
+    currency_keyboard.inline_keyboard.append(
+        [
+            InlineKeyboardButton(text='Ввести заново', callback_data=callback_menu.new(action="again")),
+            InlineKeyboardButton(text='Все валюты', callback_data=callback_menu.new(action='all_currency'))
+        ],
+    )
 
 
 @dp.message_handler(Command('currency'), state="*")
@@ -60,14 +68,31 @@ async def start(message: types.Message, state: FSMContext):
 @dp.message_handler(state=CurrencyStates.convert_to)
 async def get_from_to(message: types.Message, state: FSMContext):
     await get_keyboards(message, state)
-    if currency_keyboard.inline_keyboard:
-
-        message_keyboards = await message.answer('Уточните валюту: ',
-                             reply_markup=currency_keyboard)
+    if len(currency_keyboard.inline_keyboard) > 1:
+        message_keyboards = await message.answer(f'Уточните валюту: ',
+                                                 reply_markup=currency_keyboard)
     else:
         message_keyboards = await message.answer('по результату не найдено валют. Попробуйте снова')
 
-    await state.update_data(keyboards=message_keyboards)
+    await state.update_data(keyboards=message_keyboards, message_from_user=message)
+
+
+@dp.callback_query_handler(callback_menu.filter(),
+                           state=(CurrencyStates.convert_to, CurrencyStates.convert_from))
+async def menu_currency_keyboard(call: CallbackQuery, callback_data: dict, state: FSMContext):
+    if callback_data.get('action') == 'all_currency':
+        await (await state.get_data())['keyboards'].delete()
+        currency = (await state.get_data())['currency']
+        for k, v in currency.items():
+            currency_keyboard.inline_keyboard.append(
+                [InlineKeyboardButton(text=v['full_name'].replace('их', 'ий'), callback_data=callback.new(k))], )
+
+        message_keyboards = await call.message.answer('выберите валюту', reply_markup=currency_keyboard)
+        await state.update_data(keyboards=message_keyboards)
+    if callback_data.get('action') == 'again':
+        await (await state.get_data())['keyboards'].delete()
+        await (await state.get_data())['message_from_user'].delete()
+        currency_keyboard.inline_keyboard.clear()
 
 
 @dp.callback_query_handler(callback.filter(), state=CurrencyStates.convert_from)
@@ -86,9 +111,8 @@ async def get_to(call: CallbackQuery, callback_data: dict, state: FSMContext):
         await data['keyboards'].delete()
         await data['message'].delete()
 
-
         await call.message.answer(f"<b>{data['name1']}</b> ➡ <b>{callback_data.get('name')}</b> \n\n"
-                                        f"<i>Отправьте значение</i>")
+                                  f"<i>Отправьте значение</i>")
     await CurrencyStates.next()
 
 

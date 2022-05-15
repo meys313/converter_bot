@@ -1,14 +1,18 @@
 from aiogram import types, Dispatcher
+from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.builtin import CommandStart
 
 from loader import dp
 
 import logging
 from data.config import ADMINS
+from states import cancel
+
+
 
 
 @dp.message_handler(CommandStart())
-async def bot_start(message: types.Message):
+async def bot_start(message: types.Message, state: FSMContext):
     await message.answer(f"Привет, {message.from_user.full_name}! Это конвертер бот. \n"
                          f"Вот список комманд по которым ты можешь обратиться к нему: \n\n"
                          f"<b>Отмена действия / Выход из команды</b> - /cancel \n\n"
@@ -28,9 +32,9 @@ async def bot_start(message: types.Message):
 
                          )
 
-    for admin in ADMINS:
-        try:
-            await dp.bot.send_message(admin, f"Пользователь {message.from_user.full_name} запустил бота")
-
-        except Exception as err:
-            logging.exception(err)
+    # for admin in ADMINS:
+    #     try:
+    #         await dp.bot.send_message(admin, f"Пользователь {message.from_user.full_name} запустил бота")
+    #
+    #     except Exception as err:
+    #         logging.exception(err)

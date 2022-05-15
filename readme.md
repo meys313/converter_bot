@@ -7,7 +7,7 @@
 ## Примеры возможностей
 
 #### конвертер валют 
-![image](./description/gifs/currency_var2.gif)
+![image](./description/gifs/currency_var3.gif)
 
 #### Системы счисления 
 ![image](./description/gifs/scale_of_notation.gif)
@@ -46,7 +46,7 @@
 
 ### 3. Установите все зависимости 
 
-> pip install -r ./requirements.txt
+> pip install -r requirements.txt
 
 ### 4. Создать файл с переменными окружения ".env" в корне
     внесите данные по шаблону:

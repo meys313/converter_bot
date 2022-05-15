@@ -1,5 +1,7 @@
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
+cancel = State('cancel')
+
 year = State("year")
 
 
