@@ -4,11 +4,6 @@ from aiogram.dispatcher.filters.builtin import CommandStart
 
 from loader import dp
 
-import logging
-from data.config import ADMINS
-from states import cancel
-
-
 
 
 @dp.message_handler(CommandStart())
@@ -32,9 +27,3 @@ async def bot_start(message: types.Message, state: FSMContext):
 
                          )
 
-    # for admin in ADMINS:
-    #     try:
-    #         await dp.bot.send_message(admin, f"Пользователь {message.from_user.full_name} запустил бота")
-    #
-    #     except Exception as err:
-    #         logging.exception(err)

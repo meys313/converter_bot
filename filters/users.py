@@ -16,6 +16,7 @@ class MyFilter(BoundFilter):
             if re.findall(r"^[0-9 .+*\/-]*$", message.text):
                 return True
 
+
 class InlineClear(BoundFilter):
     async def check(self, call: CallbackQuery) -> bool:
         return call.data.split(":")[-1] == "clear"
@@ -31,9 +32,7 @@ class IsDigit(BoundFilter):
     async def check(self, message: types.Message) -> bool:
         return message.text.isdigit()
 
+
 class DiscountFilter(BoundFilter):
     async def check(self, message: types.Message) -> bool:
         return 0 < int(message.text) <= 100
-
-
-

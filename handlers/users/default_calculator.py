@@ -13,6 +13,7 @@ from keyboards.inline.clear_btn import inline_btn, callbackButton
 from states.keyboard import StatesKeyboard
 from filters import MyFilter
 
+
 # хендлер на команду /default_calculator
 @dp.message_handler(Command('default_calculator'), state="*")
 async def state_start(message: types.Message, state: FSMContext):
@@ -35,7 +36,8 @@ async def process_state(message: types.Message, state: FSMContext):
         else:
             data['my_list'].append(message.text)
 
-        await bot.edit_message_text(chat_id=message.chat.id, message_id=data['message_id'], text=f"Вывод: {''.join(data.get('my_list'))}", reply_markup=inline_btn)
+        await bot.edit_message_text(chat_id=message.chat.id, message_id=data['message_id'],
+                                    text=f"Вывод: {''.join(data.get('my_list'))}", reply_markup=inline_btn)
         await message.chat.delete_message(message_id=message.message_id)
 
 
@@ -63,7 +65,8 @@ async def result(message: types.message, state: FSMContext):
             result = eval_expr("".join(data.get("my_list")))
         except ZeroDivisionError:
             result = '<i>❗Упс, кажется ты пытаешься делить на ноль❗</i>'
-        await bot.edit_message_text(chat_id=message.chat.id, message_id=data['message_id'], text=f'Результат = {result}', reply_markup=inline_btn)
+        await bot.edit_message_text(chat_id=message.chat.id, message_id=data['message_id'],
+                                    text=f'Результат = {result}', reply_markup=inline_btn)
         await message.chat.delete_message(message_id=message.message_id)
         data['my_list'].clear()
 
@@ -74,4 +77,3 @@ async def clear_button(call: CallbackQuery, callback_data: dict, state: FSMConte
         data['my_list'].clear()
     await bot.edit_message_text(chat_id=call.message.chat.id, message_id=data['message_id'],
                                 text='Вывод: ', reply_markup=inline_btn)
-
